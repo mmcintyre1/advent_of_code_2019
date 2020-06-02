@@ -5,5 +5,23 @@ const data = fs
   .toString()
   .split("\r\n");
 
-sum = data.map((item) => Math.floor(item / 3) - 2).reduce((a, b) => a + b, 0);
-console.log(sum)
+const getFuelConsumption = (mass, arr = []) => {
+  let fuel = Math.floor(mass / 3) - 2;
+  if (fuel <= 0) {
+    return arr;
+  } else {
+    arr.push(fuel);
+    return getFuelConsumption(fuel, arr);
+  }
+}
+
+getTotalFuelConsumption = (mass) => {
+  return getFuelConsumption(mass).reduce((a, b) => a + b, 0);
+}
+
+sum = data
+  .map((mass) => {
+    return getTotalFuelConsumption(mass);
+  })
+  .reduce((a, b) => a + b, 0);
+console.log(sum);
