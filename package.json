@@ -1,0 +1,19 @@
+{
+  "name": "advent_of_code_2019_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmcintyre1/advent_of_code_2019_js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmcintyre1/advent_of_code_2019_js/issues"
+  },
+  "homepage": "https://github.com/mmcintyre1/advent_of_code_2019_js#readme"
+}
