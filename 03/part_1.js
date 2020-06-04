@@ -13,17 +13,17 @@ const movementMap = {
 };
 
 function buildPaths(nodes) {
-  traversalPath = [[0, 0]];
+  traversalPath = [{ x: 0, y: 0 }];
   nodes.split(",").forEach((node) => {
     let direction = node[0];
-    let steps = parseInt(node[1]);
+    let steps = parseInt(node.slice(1));
 
     for (let i = 0; i < steps; i++) {
-      let [lastX, lastY] = traversalPath[traversalPath.length - 1];
-      let newNode = [
-        lastX + movementMap[direction][0],
-        lastY + movementMap[direction][1],
-      ];
+      const { x, y } = traversalPath[traversalPath.length - 1];
+      let newNode = {
+        x: x + movementMap[direction][0],
+        y: y + movementMap[direction][1],
+      };
       traversalPath.push(newNode);
     }
   });
@@ -31,11 +31,14 @@ function buildPaths(nodes) {
   return traversalPath;
 }
 
-let pathOne = buildPaths(data[0]);
-let pathTwo = buildPaths(data[1]);
+const pathOne = buildPaths(data[0]);
+const pathTwo = buildPaths(data[1]);
 
-let intersection = pathOne.filter((array) => {
-  pathTwo.forEach(() => true)
-});
+// this is pretty slow
+// how do I speed it up?
+const shortestDistance = pathOne
+  .filter((a) => pathTwo.some((b) => a.x === b.x && a.y === b.y))
+  .map((coords) => Math.abs(coords.x) + Math.abs(coords.y))
+  .sort((a, b) => a - b)[1];
 
-console.log(intersection);
+console.log(shortestDistance);
