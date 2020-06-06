@@ -45,7 +45,7 @@ class IntCodeComputer {
 
     for (let i = 0; i < 6; i++) {
       if (i == 0) {
-        this.currentOpCode.push(parseInt(unparsedOpCode.substr(-1)))
+        this.currentOpCode.push(parseInt(unparsedOpCode.substr(-2, 2)))
         i = 2;
       } else if (i > unparsedOpCode.toString().length) {
         this.currentOpCode.push(0);
