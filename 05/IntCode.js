@@ -10,9 +10,13 @@ class IntCodeComputer {
     2: this.multiply,
     3: this.getInput,
     4: this.print,
+    5: this.jump,
+    6: this.jump,
+    7: this.compare,
+    8: this.compare,
     99: this.break,
   };
-
+  runId;
   running = false;
   currentPosition = 0;
   currentOpCode = null;
@@ -45,7 +49,7 @@ class IntCodeComputer {
 
     for (let i = 0; i < 6; i++) {
       if (i == 0) {
-        this.currentOpCode.push(parseInt(unparsedOpCode.substr(-2, 2)))
+        this.currentOpCode.push(parseInt(unparsedOpCode.substr(-2, 2)));
         i = 2;
       } else if (i > unparsedOpCode.toString().length) {
         this.currentOpCode.push(0);
@@ -75,15 +79,44 @@ class IntCodeComputer {
   }
 
   print() {
-    console.log(this.getNum(this.currentOpCode[1]))
+    console.log(this.getNum(this.currentOpCode[1]));
   }
 
   getInput() {
-    this.setNum(1)
+    this.setNum(this.runId);
   }
 
-  process() {
+  jump() {
+    let checkPhrase = null;
+    if (this.currentOpCode[0] == 5) {
+      checkPhrase = this.getNum(this.currentOpCode[1]) != 0;
+    } else {
+      checkPhrase = this.getNum(this.currentOpCode[1]) === 0;
+    }
+
+    if (checkPhrase) {
+      this.currentPosition = this.getNum(this.currentOpCode[2]);
+    } else {
+      this.currentPosition++;
+    }
+  }
+
+  compare() {
+    const firstNum = this.getNum(this.currentOpCode[1]);
+    const secondNum = this.getNum(this.currentOpCode[2]);
+    let bool = null;
+
+    if (this.currentOpCode[0] === 7) {
+      bool = firstNum < secondNum ? 1 : 0;
+    } else {
+      bool = firstNum === secondNum ? 1 : 0;
+    }
+    this.setNum(bool, this.currentOpCode[3]);
+  }
+
+  process(id) {
     this.running = true;
+    this.runId = id;
 
     while (this.running) {
       this.parseOpCode();
@@ -98,4 +131,4 @@ let data = fs
   .map((item) => parseInt(item.trim()));
 
 computer = new IntCodeComputer(data);
-computer.process();
+computer.process(5);
